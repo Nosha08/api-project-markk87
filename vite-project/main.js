@@ -9,7 +9,9 @@ gsap.from('#usdToCurrencyForm', {duration: 3, y: '-200%', ease: 'expo'});
 
 async function convertUSD() {
   const usdAmount = document.getElementById('usdAmount').value;
-  const currencyCode = document.getElementById('currencyCode').value;
+  console.log(usdAmount)
+  const currencyCode = document.getElementById('currencyCode');
+  
 
   
   const apiUrl = `https://open.er-api.com/v6/latest/USD?apikey=`;
@@ -20,9 +22,9 @@ async function convertUSD() {
     let i = 0
     function result(){
       Object.entries(data.rates).forEach((el) =>{
-        console.log(el)
+        //console.log(el)
         el.forEach((item)=>{
-          console.log(item)
+          //console.log(item)
         })
       })
     } 
@@ -32,9 +34,12 @@ async function convertUSD() {
     
 
     if (data.result === 'success') {
-      const exchangeRate = data.rates[currencyCode];
+      console.log('Data Rates:', data.rates);
+      const exchangeRate = data.rates[currencyCode.value];
+      console.log('Exchange Rate:', exchangeRate);
       const convertedAmount = (usdAmount * exchangeRate).toFixed(2); // this should round the number to 2 decimal places so ppl dont get a huge amount
-      document.getElementById('result').textContent = `${usdAmount} USD is approximately ${convertedAmount} ${currencyCode}`;
+      console.log(convertedAmount)
+      document.getElementById('result').textContent = `${usdAmount} USD is approximately ${convertedAmount} ${currencyCode.value}`;
   
     } else {
       document.getElementById('result').textContent = 'Failed to fetch exchange rates. Please try again later.';
@@ -50,9 +55,9 @@ async function convertUSD() {
     }
   }
 }
-convertUSD();
 document.querySelector(".button").addEventListener("click", function(event) {
   event.preventDefault();
+  convertUSD()
   
 })
 
